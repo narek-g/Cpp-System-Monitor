@@ -20,6 +20,7 @@ template <typename Type> Type getValues( const string &path, const string &key){
 
     while (std::getline(filestream, line)) {
       // std::replace(line.begin(), line.end(), ':', ' ');
+      std::istringstream linestream(line);
       string streamKey; 
       linestream >> streamKey; 
       if(streamKey == key){
