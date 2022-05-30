@@ -19,7 +19,7 @@ template <typename Type> Type getValues( const string &path, const string &key){
     string line; 
 
     while (std::getline(filestream, line)) {
-      std::replace(line.begin(), line.end(), ':', ' ');
+      // std::replace(line.begin(), line.end(), ':', ' ');
       string streamKey; 
       linestream >> streamKey; 
       if(streamKey == key){
@@ -30,6 +30,7 @@ template <typename Type> Type getValues( const string &path, const string &key){
   } // close filestrea.is_open
   return value; // empty value if not found 
 } // close template class
+
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
@@ -89,9 +90,11 @@ vector<int> LinuxParser::Pids() {
 
 // TODO: Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() { 
-  string memTotal, memFree, memAvailable; 
-  string line, key, value;  
-
+  float memTotal, memFree; 
+  const string path(kProcDirectory + kMeminfoFilename);
+  memTotal = getValues<float> (path, "MemTotal:");
+  memFree  = getValues<float> (path, "MemFree:");
+  return (memTotal - memFree)/memTotal;
 }
 
 // TODO: Read and return the system uptime
