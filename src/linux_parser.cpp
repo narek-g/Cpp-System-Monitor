@@ -11,6 +11,26 @@ using std::string;
 using std::to_string;
 using std::vector;
 
+
+template <typename Type> Type getValues( const string &path, const string &key){
+  Type value; 
+  std::ifstream filestream(path);
+  if (filestream.is_open()){
+    string line; 
+
+    while (std::getline(filestream, line)) {
+      std::replace(line.begin(), line.end(), ':', ' ');
+      string streamKey; 
+      linestream >> streamKey; 
+      if(streamKey == key){
+        linestream >> value; 
+        return value; 
+      } // close if key found 
+    } // close while getline
+  } // close filestrea.is_open
+  return value; // empty value if not found 
+} // close template class
+
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
   string line;
