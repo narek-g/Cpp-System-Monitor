@@ -112,7 +112,7 @@ long LinuxParser::UpTime() {
 long LinuxParser::Jiffies() { 
   vector<string> cpuTimes = CpuUtilization();
   long totalTime = 0; 
-  for(int i = 0;i < cpuTimes.size(); i++) {
+  for(unsigned int i = 0;i < cpuTimes.size(); i++) {
     if(i == CPUStates::kGuest_ || CPUStates::kGuestNice_){
       totalTime -= stol(cpuTimes[i]);
     } else {
@@ -128,19 +128,20 @@ long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
 
 // TODO: Read and return the number of active jiffies for the system
 long LinuxParser::ActiveJiffies() { 
-  vector<long> cpuJiffies = CpuUtilization();
-  return (cpuJiffies[kUser_] + cpuJiffies[kNice_] + cpuJiffies[kSystem_] + cpuJiffies[kIRQ_] + cpuJiffies[kSoftIRQ_] + cpuJiffies[kSteal_]);
+  vector<string> cpuJiffies = CpuUtilization();
+  return stol(cpuJiffies[kUser_] + cpuJiffies[kNice_] + cpuJiffies[kSystem_] + 
+  cpuJiffies[kIRQ_] + cpuJiffies[kSoftIRQ_] + cpuJiffies[kSteal_]);
 }
 
 // TODO: Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() { 
-  vector<long> cpuJiffies = CpuUtilization();
-  return (cpuJiffies[kIdle_] + cpuJiffies[kIOwait_]);
+  vector<string> cpuJiffies = CpuUtilization();
+  return stol(cpuJiffies[kIdle_] + cpuJiffies[kIOwait_]);
  }
 
 // TODO: Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() { 
-  vector<int> cpuTimes; 
+  vector<string> cpuTimes; 
   string cpuValue, line, key; 
 
   std::ifstream filestream(kProcDirectory + kStatFilename);
@@ -231,7 +232,7 @@ string LinuxParser::User(int pid) {
       std::istringstream linestream(line);
       string currentID, xVal;
       
-      if (linestream >> userName >> xVal >> currentID) {
+      if (linestream >> username >> xVal >> currentID) {
         if (currentID == userID) {
           return username;
         }
@@ -239,7 +240,7 @@ string LinuxParser::User(int pid) {
     }
   }
 
-  return userName;
+  return username;
 }
 
 // TODO: Read and return the uptime of a process
@@ -257,7 +258,7 @@ long LinuxParser::UpTime(int pid) {
         return 1000;
       }
     }
-    upTimeInClockTicks = std::stol(value);
+    uptimeClocks = std::stol(value);
   } // if filestream.is_open
-  return upTimeInClockTicks/sysconf(_SC_CLK_TCK);
+  return uptimeClocks/sysconf(_SC_CLK_TCK);
 }
