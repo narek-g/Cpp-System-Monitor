@@ -2,9 +2,9 @@
 
 
 Processor::Processor():
-    idle_(LinuxParser::IdleJiffies);
-    nonIdle_(LinuxParser::ActiveJiffies)
-    totalIdle_(idle_ + nonIdle_); {}
+    idle_(LinuxParser::IdleJiffie()),
+    nonIdle_(LinuxParser::ActiveJiffies()),
+    totalIdle_(idle_ + nonIdle_) {}
 
 // TODO: Return the aggregate CPU utilization
 float Processor::Utilization() { 
