@@ -125,7 +125,6 @@ long LinuxParser::Jiffies() {
 // TODO: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::ActiveJiffies(int pid) { 
-  long totalTime = 0; 
   string xVal; 
   std::stringstream path; 
   path << kProcDirectory << pid << kStatFilename; 
@@ -142,6 +141,7 @@ long LinuxParser::ActiveJiffies(int pid) {
       return(clock1 + clock2 + clock3 + clock4)/sysconf(_SC_CLK_TCK);
     }
   }
+  return (0/sysconf(_SC_CLK_TCK));
  }
 
 // TODO: Read and return the number of active jiffies for the system
