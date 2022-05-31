@@ -1,8 +1,9 @@
 #include "processor.h"
+#include "linux_parser.h"
 
 
 Processor::Processor():
-    idle_(LinuxParser::IdleJiffie()),
+    idle_(LinuxParser::IdleJiffies()),
     nonIdle_(LinuxParser::ActiveJiffies()),
     totalIdle_(idle_ + nonIdle_) {}
 

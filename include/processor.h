@@ -9,7 +9,7 @@ class Processor {
   // TODO: Declare any necessary private members
  private:
     long idle_;
-    long nonidle_;
+    long nonIdle_;
     long totalIdle_;
 };
 
