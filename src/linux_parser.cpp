@@ -139,7 +139,7 @@ string LinuxParser::Command(int pid[[maybe_unused]]) { return string(); }
 string LinuxParser::Ram(int pid[[maybe_unused]]) { 
   std::stringstream path; 
   int Ram;
-  string returnRam; 
+  std::stringstream returnRam; 
   path << kProcDirectory << pid << kStatusFilename;
   Ram = getValues<int> (path.str(), "VmSize:");
   returnRam << Ram/1000;
@@ -153,6 +153,7 @@ string LinuxParser::Uid(int pid) {
   std::stringstream path; 
   path << kProcDirectory << pid << kStatusFilename; 
   userID = getValues<string> (path.str(), "Uid:");
+  return userID; 
  }
 
 // TODO: Read and return the user associated with a process
