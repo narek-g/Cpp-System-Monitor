@@ -138,23 +138,24 @@ long LinuxParser::ActiveJiffies(int pid) {
     }
     long clock1, clock2, clock3, clock4; 
     if(filestream >> clock1 >> clock2 >> clock3 >> clock4){
-      return(clock1 + clock2 + clock3 + clock4)/sysconf(_SC_CLK_TCK);
+      return(clock1 + clock2 + clock3 + clock4); ///sysconf(_SC_CLK_TCK);
     }
   }
-  return (0/sysconf(_SC_CLK_TCK));
+  return 0; //(0/sysconf(_SC_CLK_TCK));
  }
 
 // TODO: Read and return the number of active jiffies for the system
 long LinuxParser::ActiveJiffies() { 
-  vector<string> cpuJiffies = CpuUtilization();
-  return stol(cpuJiffies[kUser_] + cpuJiffies[kNice_] + cpuJiffies[kSystem_] + 
-  cpuJiffies[kIRQ_] + cpuJiffies[kSoftIRQ_] + cpuJiffies[kSteal_]);
+  // vector<string> cpuJiffies = CpuUtilization();
+  // return stol(cpuJiffies[kUser_] + cpuJiffies[kNice_] + cpuJiffies[kSystem_] + 
+  // cpuJiffies[kIRQ_] + cpuJiffies[kSoftIRQ_] + cpuJiffies[kSteal_]);
+  return 1000;
 }
 
 // TODO: Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() { 
   vector<string> cpuJiffies = CpuUtilization();
-  return stol(cpuJiffies[kIdle_] + cpuJiffies[kIOwait_]);
+  return stoll(cpuJiffies[kIdle_] + cpuJiffies[kIOwait_]);
  }
 
 // TODO: Read and return CPU utilization
@@ -264,7 +265,7 @@ string LinuxParser::User(int pid) {
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::UpTime(int pid) { 
-  long uptimeClocks; 
+  long uptimeClocks = 10000; 
   std::stringstream path; 
   path << kProcDirectory << pid << kStatFilename; 
   std::ifstream filestream(path.str());
@@ -278,5 +279,5 @@ long LinuxParser::UpTime(int pid) {
     }
     uptimeClocks = std::stol(value);
   } // if filestream.is_open
-  return uptimeClocks/sysconf(_SC_CLK_TCK);
+  return uptimeClocks; // /sysconf(_SC_CLK_TCK);
 }
