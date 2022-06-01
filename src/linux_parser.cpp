@@ -138,10 +138,10 @@ long LinuxParser::ActiveJiffies(int pid) {
     }
     long clock1, clock2, clock3, clock4; 
     if(filestream >> clock1 >> clock2 >> clock3 >> clock4){
-      return(clock1 + clock2 + clock3 + clock4)/sysconf(_SC_CLK_TCK);
+      return(clock1 + clock2 + clock3 + clock4); ///sysconf(_SC_CLK_TCK);
     }
   }
-  return (0/sysconf(_SC_CLK_TCK));
+  return 10000; //(0/sysconf(_SC_CLK_TCK));
  }
 
 // TODO: Read and return the number of active jiffies for the system
@@ -279,5 +279,5 @@ long LinuxParser::UpTime(int pid) {
     }
     uptimeClocks = std::stol(value);
   } // if filestream.is_open
-  return uptimeClocks/sysconf(_SC_CLK_TCK);
+  return uptimeClocks; ///sysconf(_SC_CLK_TCK);
 }
