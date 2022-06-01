@@ -21,10 +21,11 @@ string Format::NumToString(long number){
 string Format::ElapsedTime(long seconds) { 
     long hour, minute, second; 
     hour = seconds/3600; 
-    minute = (seconds%3600)/60; 
-    second = minute%60;
+    long remaining = seconds%3600;
+    minute = (remainding)/60; 
+    remaining = minute%60;
 
     std::stringstream numstr; 
-    numstr << NumToString(hour) << ":" << NumToString(minute) << ":" << NumToString(second);
+    numstr << NumToString(hour) << ":" << NumToString(minute) << ":" << NumToString(remaining);
     return numstr.str();
  }
