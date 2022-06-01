@@ -24,8 +24,8 @@ int Process::Pid() {
 // TODO: Return this process's CPU utilization
 float Process::CpuUtilization() { 
     int upTime = LinuxParser::UpTime();
-    int activeTime = LinuxParser::ActiveJiffies(_id);
-    int processTime = LinuxParser::UpTime(_id);
+    int activeTime = LinuxParser::ActiveJiffies(id_);
+    int processTime = LinuxParser::UpTime(id_);
     
     int timeDiff = upTime - processTime;
 
