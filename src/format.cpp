@@ -22,7 +22,7 @@ string Format::ElapsedTime(long seconds) {
     long hour, minute, second; 
     hour = seconds/3600; 
     long remaining = seconds%3600;
-    minute = (remainding)/60; 
+    minute = (remaining)/60; 
     remaining = minute%60;
 
     std::stringstream numstr; 
