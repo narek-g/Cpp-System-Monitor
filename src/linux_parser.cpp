@@ -168,7 +168,7 @@ vector<long> LinuxParser::CpuUtilization() {
     std::string cpu;
     filestream >> cpu;
     if (cpu == "cpu") {
-      for (int i = 0; i < CPUStates::END; i++) {
+      for (int i = 0; i < 8; i++){  //CPUStates::END; i++) {
         long value;
         filestream >> value;
         cpuJiffies.push_back(value);
