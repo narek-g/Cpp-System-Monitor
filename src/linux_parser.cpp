@@ -12,7 +12,7 @@ using std::to_string;
 using std::vector;
 
 
-template <typename Type> Type LinuxParser::getValues( const string &filename, const string &key){
+template <typename Type> Type getValues( const string &filename, const string &key){
   Type value; 
   string line, streamKey;
   std::ifstream stream(LinuxParser::kProcDirectory + filename);
@@ -87,8 +87,8 @@ vector<int> LinuxParser::Pids() {
 
 // TODO: Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() { 
-  float memTotal = LinuxParser::getValues<int>(LinuxParser::kMeminfoFilename, "MemTotal:");
-  float memFree  = LinuxParser::getValues<int>(LinuxParser::kMeminfoFilename, "MemFree:");
+  float memTotal = getValues<int>(LinuxParser::kMeminfoFilename, "MemTotal:");
+  float memFree  = getValues<int>(LinuxParser::kMeminfoFilename, "MemFree:");
   return (memTotal - memFree)/memTotal; 
 }
 
@@ -151,12 +151,12 @@ vector<string> LinuxParser::CpuUtilization() { return {}; }
 
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() { 
-  return(LinuxParser::getValues<int>(LinuxParser::kStatFilename, "processes"));
+  return(getValues<int>(LinuxParser::kStatFilename, "processes"));
 }
 
 // TODO: Read and return the number of running processes
 int LinuxParser::RunningProcesses() { 
-  return(LinuxParser::getValues<int>(LinuxParser::kStatFilename, "procs_running"));
+  return(getValues<int>(LinuxParser::kStatFilename, "procs_running"));
 }
 
 // TODO: Read and return the command associated with a process
@@ -176,14 +176,14 @@ string LinuxParser::Command(int pid) {
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Ram(int pid) { 
-  long ram = LinuxParser::getValues<long>(to_string(pid) + LinuxParser::kStatusFilename, "VmSize");
+  long ram = getValues<long>(to_string(pid) + LinuxParser::kStatusFilename, "VmSize");
   return(to_string(ram/1024));
 }
 
 // TODO: Read and return the user ID associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 int LinuxParser::Uid(int pid) { 
-  return(LinuxParser::getValues<int>(to_string(pid) + LinuxParser::kStatusFilename, "Uid"));
+  return(getValues<int>(to_string(pid) + LinuxParser::kStatusFilename, "Uid"));
 }
 
 // TODO: Read and return the user associated with a process
