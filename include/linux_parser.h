@@ -7,7 +7,7 @@
 
 namespace LinuxParser {
 // Template
-Type LinuxParser::getValues(const string&, const string&);
+template <typename Type> Type LinuxParser::getValues( const string&, const string&);
 
 // Paths
 const std::string kProcDirectory{"/proc/"};
