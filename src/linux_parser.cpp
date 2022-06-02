@@ -165,7 +165,7 @@ string LinuxParser::Command(int pid) {
   string command = "No Command";
   string line; 
   std::ifstream stream(LinuxParser::kProcDirectory + to_string(pid) + LinuxParser::kCmdlineFilename);
-  f(stream.is_open()){
+  if(stream.is_open()){
     std::getline(stream, line);
     std::istringstream linestream(line);
     linestream >> command;
