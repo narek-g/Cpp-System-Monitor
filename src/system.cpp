@@ -28,7 +28,7 @@ vector<Process>& System::Processes() {
     for(int pid:pids){
         processes_.push_back(Process(pid));
     }
-    std::sorf(processes_.begin(), processes_.end());
+    std::sort(processes_.begin(), processes_.end());
     return(processes_);
 }
 
