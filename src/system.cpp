@@ -29,7 +29,7 @@ vector<Process>& System::Processes() {
         processes_.push_back(Process(pid));
     }
     std::sorf(processes_.begin(), processes_.end());
-    return(processes_;)
+    return(processes_);
 }
 
 // TODO: Return the system's kernel identifier (string)
