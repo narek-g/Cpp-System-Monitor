@@ -19,7 +19,7 @@ Process::Process(const int id): pid_(id){
     std::ifstream stream(LinuxParser::kProcDirectory + to_string(id) + LinuxParser::kStatFilename);
     std::getline(stream, line);
     std::istringstream linestream(line);
-    std::isteam_iterator<string> beg(linestream), end;
+    std::istream_iterator<string> beg(linestream), end;
     vector<string> cpuTimes(beg, end);
     utime_ = std::stof(cpuTimes[13]);
     stime_ = std::stof(cpuTimes[14]);
@@ -38,7 +38,7 @@ int Process::Pid() {
 float Process::CpuUtilization() { 
     float upTime = LinuxParser::UpTime();
     float totalTime = utime_ + stime_ + cutime_ + cstime_;
-    float cpuUtilization = (totalTime_/timeHerze_)/(upTime - (startTime_/timeHerze_));
+    float cpuUtilization = (totalTime/timeHerze_)/(upTime - (startTime_/timeHerze_));
     return cpuUtilization;
 }
 
@@ -53,7 +53,7 @@ string Process::User() { return LinuxParser::User(Process::Pid()); }
 
 // TODO: Return the age of this process (in seconds)
 long int Process::UpTime() { 
-    long seconds = LinuxParser::UpTime() - (startTime_/timeHerze_)
+    return(LinuxParser::UpTime() - (startTime_/timeHerze_));
  }
 
 // TODO: Overload the "less than" comparison operator for Process objects
