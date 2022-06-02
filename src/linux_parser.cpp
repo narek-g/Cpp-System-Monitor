@@ -183,8 +183,7 @@ string LinuxParser::Ram(int pid) {
 // TODO: Read and return the user ID associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 int LinuxParser::Uid(int pid) { 
-  int uid = LinuxParser::getValues<int>(to_string(pid) + LinuxParser::kStatusFilename, "Uid");
-  return(uid);
+  return(LinuxParser::getValues<int>(to_string(pid) + LinuxParser::kStatusFilename, "Uid"));
 }
 
 // TODO: Read and return the user associated with a process
