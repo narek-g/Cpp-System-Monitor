@@ -1,24 +1,43 @@
+#include <string> 
+#include<sstream>
+#include <vector>
+#include <numeric>
 #include "processor.h"
 #include "linux_parser.h"
 
 
-Processor::Processor():
-    idle_(LinuxParser::IdleJiffies()),
-    nonIdle_(LinuxParser::ActiveJiffies()),
-    totalIdle_(idle_ + nonIdle_) {}
+// Processor::Processor():
+//     idle_(LinuxParser::IdleJiffies()),
+//     nonIdle_(LinuxParser::ActiveJiffies()),
+//     totalIdle_(idle_ + nonIdle_) {}
 
 // TODO: Return the aggregate CPU utilization
 float Processor::Utilization() { 
-    long idle = LinuxParser::IdleJiffies();
-    long nonIdle = LinuxParser::ActiveJiffies();
-    long totalIdle = idle + nonIdle;
+   double time;
+   std::string line, key;
+   std::vector<double> cpuTimes;
+   std::ifstream stream(LinuxParser::kProcDirectory + LinuxParser::kStatFilename);
+   if(steam.is_open()){
+       while(std::getline(stream, line)){
+           std::istringstream linestream(line);
+           while(linestream >> key){
+               if(key == "cpu"){
+                   while(linestream >> time) {cpuTimes.push_back(time);}
+                }
+            }
+        }
+    }
+    if(cpuTimes.size() < 4) {return false;}
 
-    long deltaIdle = idle - idle_;
-    long deltaTotal = totalIdle - totalIdle_;
+    double idle = cpuTimes[3];
+    double totalIdle = std::accumulate(cpuTimes.begin(), cpuTimes.end(), 0);
 
-    idle_ = idle;
-    nonIdle = nonIdle; 
-    totalIdle = totalIdle; 
+    float idleDelta = idle - idle_;
+    float totalDelta = totalIdle - totalIdle_;
+    float utilization = 1 - (idleDelta/totalDelta);
 
-    return (deltaTotal - deltaIdle)/deltaTotal;
+    idle_ = idle; 
+    totalIdle_ = totalIdle; 
+
+    return(utilization);
 }
