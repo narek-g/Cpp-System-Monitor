@@ -21,9 +21,9 @@ string NumToString(int number){
 // OUTPUT: HH:MM:SS
 // REMOVE: [[maybe_unused]] once you define the function
 string Format::ElapsedTime(long seconds) { 
-    long hour, minute, second; 
+    long hour, minute, remaining; 
     hour = seconds/3600; 
-    long remaining = seconds%3600;
+    remaining = seconds%3600;
     minute = (remaining)/60; 
     remaining = minute%60;
 
