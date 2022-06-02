@@ -109,8 +109,8 @@ long LinuxParser::UpTime() {
 long LinuxParser::Jiffies() { 
   vector<string> cpuTimes = LinuxParser::CpuUtilization();
   long totalTime = 0;
-  for(unsigned int i = 0; i < cpuTimes.size(), i++){
-    if(i== LinuxParser::CPUStates::kGuestNice_|| i = LinuxParser::CPUStates::kGuest_){
+  for(unsigned int i = 0; i < cpuTimes.size(); i++){
+    if(i == LinuxParser::CPUStates::kGuestNice_|| i == LinuxParser::CPUStates::kGuest_){
       totalTime -= stol(cpuTimes[i]);
     } else {
       totalTime += stol(cpuTimes[i]);
