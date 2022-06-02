@@ -17,7 +17,7 @@ float Processor::Utilization() {
    std::string line, key;
    std::vector<double> cpuTimes;
    std::ifstream stream(LinuxParser::kProcDirectory + LinuxParser::kStatFilename);
-   if(steam.is_open()){
+   if(stream.is_open()){
        while(std::getline(stream, line)){
            std::istringstream linestream(line);
            while(linestream >> key){
