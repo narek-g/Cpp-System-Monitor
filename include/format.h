@@ -4,7 +4,7 @@
 #include <string>
 
 namespace Format {
-std::string NumToString(long number);
+// std::string NumToString(long number);
 std::string ElapsedTime(long times);  // TODO: See src/format.cpp
 };                                    // namespace Format
 

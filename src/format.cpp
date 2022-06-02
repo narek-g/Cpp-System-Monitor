@@ -6,12 +6,14 @@
 using std::string;
 
 
-string Format::NumToString(long number){
-    std::stringstream numstr; 
+string NumToString(int number){
+    // std::stringstream numstr; 
 
-    if(number < 10){ numstr << "0";}
-    numstr << number; 
-    return numstr.str(); 
+    // if(number < 10){ numstr << "0";}
+    // numstr << number; 
+    // return numstr.str(); 
+    string timeStr = std::to_string(number);
+    return(string(2 - timeStr.length(), '0') + timeStr);
 }
 
 // TODO: Complete this helper function
@@ -25,7 +27,5 @@ string Format::ElapsedTime(long seconds) {
     minute = (remaining)/60; 
     remaining = minute%60;
 
-    std::stringstream numstr; 
-    numstr << NumToString(hour) << ":" << NumToString(minute) << ":" << NumToString(remaining);
-    return numstr.str();
+    return(NumToString(hour) + ":" + NumToString(minute) + ":" + NumToString(remaining));
  }
