@@ -5,3 +5,4 @@ settings.json
 build/*
 *.json
 .github/**
+src/.DS_Store
