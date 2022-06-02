@@ -38,7 +38,7 @@ int Process::Pid() {
 float Process::CpuUtilization() { 
     float upTime = LinuxParser::UpTime();
     float totalTime = utime_ + stime_ + cutime_ + cstime_;
-    float cpuUtilization = (totalTime/timeHerze_)/(upTime - (startTime/timeHerze_));
+    float cpuUtilization = (totalTime_/timeHerze_)/(upTime - (startTime_/timeHerze_));
     return cpuUtilization;
 }
 

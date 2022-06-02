@@ -24,7 +24,7 @@ class Process {
     // std::string username_;
     // std::string command_;
     float cpuUtilization_;
-    float startTime{0.0};
+    float startTime_{0.0};
     float timeHerze_{0.0};
     float utime_{0.0};
     float stime_{0.0};
