@@ -21,7 +21,7 @@ template <typename Type> Type LinuxParser::getValues( const string &filename, co
       // std::replace(line.begin(), line.end(), ':', ' ');
       std::istringstream linestream(line);
       while(linestream >> streamKey >> value){
-        if(streamKey == key){return value}
+        if(streamKey == key){return value;}
       }
     } // close while getline
   } // close filestrea.is_open
@@ -182,15 +182,15 @@ string LinuxParser::Ram(int pid) {
 
 // TODO: Read and return the user ID associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Uid(int pid) { 
+int LinuxParser::Uid(int pid) { 
   int uid = LinuxParser::getValues<int>(to_string(pid) + LinuxParser::kStatusFilename, "Uid");
-  return(to_string(uid));
+  return(uid);
 }
 
 // TODO: Read and return the user associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::User(int pid[[maybe_unused]]) { 
-  string userID = LinuxParser::Uid(pid);
+  int userID = LinuxParser::Uid(pid);
   string username = "User"; 
   string line, xVal;
   int streamID;
