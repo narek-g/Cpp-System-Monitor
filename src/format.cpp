@@ -20,7 +20,7 @@ string NumToString(int number){
 // INPUT: Long int measuring seconds
 // OUTPUT: HH:MM:SS
 // REMOVE: [[maybe_unused]] once you define the function
-string Format::ElapsedTime(long seconds) { 
+string Format::ElapsedTime(long int seconds) { 
     long hour, minute, remaining; 
     hour = seconds/3600; 
     remaining = seconds%3600;
