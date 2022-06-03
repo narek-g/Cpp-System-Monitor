@@ -39,10 +39,10 @@ string Format::ElapsedTime(long seconds) {
     string sec = std::to_string(remaining);
     sec.insert(0, 2 - sec.length(), '0');
 
-    string mins = std::to_string(minutes);
+    string mins = std::to_string(minute);
     mins.insert(0, 2 - mins.length(), '0');
 
-    string hrs = std::to_string(hours);
+    string hrs = std::to_string(hour);
     hrs.insert(0, 2 - hrs.length(), '0');
 
     // string result = hrs + ":" + mins + ":" + sec;
