@@ -188,7 +188,7 @@ int LinuxParser::Uid(int pid) {
 
 // TODO: Read and return the user associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::User(int pid[[maybe_unused]]) { 
+string LinuxParser::User(int pid) { 
   int userID = LinuxParser::Uid(pid);
   string username = "User"; 
   string line, xVal;
