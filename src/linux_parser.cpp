@@ -151,7 +151,7 @@ vector<string> LinuxParser::CpuUtilization() { return {}; }
 
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() { 
-  return(getValues<int>(LinuxParser::kStatFilename, "processes"));
+  return(getValues<float>(LinuxParser::kStatFilename, "processes"));
 }
 
 // TODO: Read and return the number of running processes
