@@ -27,7 +27,7 @@ string Format::ElapsedTime(long seconds) {
     minute = (remaining)/60; 
     remaining = minute%60;
 
-    return(NumToString(hour) + ":" + NumToString(minute) + ":" + NumToString(remaining));
+    // return(NumToString(hour) + ":" + NumToString(minute) + ":" + NumToString(remaining));
 
     // long hours, minutes;
     // hours = seconds / 3600;
@@ -36,15 +36,17 @@ string Format::ElapsedTime(long seconds) {
     // seconds = seconds % 60;
 
     // string sec = std::to_string(seconds);
-    // sec.insert(0, 2 - sec.length(), '0');
+    string sec = std::to_string(remaining);
+    sec.insert(0, 2 - sec.length(), '0');
 
-    // string mins = std::to_string(minutes);
-    // mins.insert(0, 2 - mins.length(), '0');
+    string mins = std::to_string(minutes);
+    mins.insert(0, 2 - mins.length(), '0');
 
-    // string hrs = std::to_string(hours);
-    // hrs.insert(0, 2 - hrs.length(), '0');
+    string hrs = std::to_string(hours);
+    hrs.insert(0, 2 - hrs.length(), '0');
 
-    // std::string result = hrs + ":" + mins + ":" + sec;
+    // string result = hrs + ":" + mins + ":" + sec;
     // return result;
+    return(hrs + ":" + mins + ":" + sec);
 
  }
