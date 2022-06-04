@@ -194,7 +194,7 @@ string LinuxParser::Command(int pid) {
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Ram(int pid) { 
-  long ram = getValues<long>(to_string(pid) + LinuxParser::kStatusFilename, "VmSize");
+  long ram = getValues<long>(to_string(pid) + LinuxParser::kStatusFilename, "VmSize:");
   return(to_string(ram/1024));
 }
 
