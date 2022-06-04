@@ -169,12 +169,12 @@ vector<string> LinuxParser::CpuUtilization() {
 
 // Read and return the total number of processes
 int LinuxParser::TotalProcesses() { 
-  return(getValues<int>(LinuxParser::kStatFilename, "processes"));
+  return(getValues<int>(LinuxParser::kStatFilename, LinuxParser::filterProcesses));
 }
 
 // Read and return the number of running processes
 int LinuxParser::RunningProcesses() { 
-  return(getValues<int>(LinuxParser::kStatFilename, "procs_running"));
+  return(getValues<int>(LinuxParser::kStatFilename, LinuxParser::filterRunningProcesses));
 }
 
 // Read and return the command associated with a process
