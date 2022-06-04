@@ -12,20 +12,16 @@ using std::to_string;
 using std::vector;
 
 
-template <typename Type> Type getValues( const string &path, const string &key){
+template <typename Type> Type getValues( const string &filename, const string &key){
   Type value; 
-  std::ifstream filestream(path);
-  if (filestream.is_open()){
-    string line; 
-
-    while (std::getline(filestream, line)) {
+  string streamKey, line;
+  std::ifstream stream(LinuxParser::kProcDirectory + filename);
+  if (stream.is_open()){
+    while (std::getline(stream, line)) {
       // std::replace(line.begin(), line.end(), ':', ' ');
       std::istringstream linestream(line);
-      string streamKey; 
-      linestream >> streamKey; 
-      if(streamKey == key){
-        linestream >> value; 
-        return value; 
+      while(linestream >> streamKey >> value){
+        if(streamKey == key){ return value;}
       } // close if key found 
     } // close while getline
   } // close filestrea.is_open
@@ -92,16 +88,15 @@ vector<int> LinuxParser::Pids() {
 // TODO: Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() { 
   float memTotal, memFree; 
-  const string path(kProcDirectory + kMeminfoFilename);
-  memTotal = getValues<float> (path, "MemTotal:");
-  memFree  = getValues<float> (path, "MemFree:");
+  memTotal = getValues<float> (LinuxParser::kMeminfoFilename, "MemTotal:");
+  memFree  = getValues<float> (LinuxParser::kMeminfoFilename, "MemFree:");
   return (memTotal - memFree)/memTotal;
 }
 
 // TODO: Read and return the system uptime
 long LinuxParser::UpTime() { 
   long uptimeValue; 
-  std::ifstream filestream(kProcDirectory + kUptimeFilename);
+  std::ifstream filestream(LinuxParser::kProcDirectory + LinuxParser::kUptimeFilename);
   if(filestream.is_open()){
     filestream >> uptimeValue;
   }
@@ -113,7 +108,7 @@ long LinuxParser::Jiffies() {
   vector<string> cpuTimes = CpuUtilization();
   long totalTime = 0; 
   for(unsigned int i = 0;i < cpuTimes.size(); i++) {
-    if(i == CPUStates::kGuest_ || CPUStates::kGuestNice_){
+    if(i == CPUStates::kGuest_ || i == CPUStates::kGuestNice_){
       totalTime -= stol(cpuTimes[i]);
     } else {
       totalTime += stol(cpuTimes[i]);
@@ -125,38 +120,32 @@ long LinuxParser::Jiffies() {
 // TODO: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::ActiveJiffies(int pid) { 
-  string xVal; 
-  std::stringstream path; 
-  path << kProcDirectory << pid << kStatFilename; 
-  std::ifstream filestream(path.str());
-  if(filestream.is_open()){
-    const int position = 13; 
-    for(int i = 0; i < position; i++){
-      if(!(filestream >> xVal)){
-        return 1000; 
-      }
-    }
-    long clock1, clock2, clock3, clock4; 
-    if(filestream >> clock1 >> clock2 >> clock3 >> clock4){
-      return(clock1 + clock2 + clock3 + clock4); ///sysconf(_SC_CLK_TCK);
-    }
-  }
-  return 0; //(0/sysconf(_SC_CLK_TCK));
+  string line;
+
+  std::ifstream stream(LinuxParser::kProcDirectory + to_string(pid) + LinuxParser::kStatFilename);
+  std::getline(stream, line);
+  std::istringstream linestream(line);
+  std::istream_iterator<string> beg(linestream), end;
+  std::vector<string> cputimes(beg, end);
+
+  float utime_ = std::stof(cpuTimes[13]);
+  float stime_ = std::stof(cpuTimes[14]);
+  float cutime_ = std::stof(cpuTimes[15]);
+  float cstime_ = std::stof(cpuTimes[16]);
+
+  return utime_ + stime_ + cutime_ + cstime_; 
  }
 
 // TODO: Read and return the number of active jiffies for the system
 long LinuxParser::ActiveJiffies() { 
-  // vector<string> cpuJiffies = CpuUtilization();
-  // return stol(cpuJiffies[kUser_] + cpuJiffies[kNice_] + cpuJiffies[kSystem_] + 
-  // cpuJiffies[kIRQ_] + cpuJiffies[kSoftIRQ_] + cpuJiffies[kSteal_]);
-  return 1000;
+    return LinuxParser::Jiffies() - LinuxParser::IdleJiffies(); 
 }
 
 // TODO: Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() { 
-  vector<string> cpuJiffies = CpuUtilization();
-  return stoll(cpuJiffies[kIdle_] + cpuJiffies[kIOwait_]);
- }
+  vector<string> cpuTimes = LinuxParser::CpuUtilization();
+  return stol(cpuTimes[LinuxParser::CPUStates::kIOwait_]) + stol(cpuTimes[LinuxParser::CPUStates::kIdle_]);
+}
 
 // TODO: Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() { 
