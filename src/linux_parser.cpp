@@ -25,6 +25,7 @@ template <typename Type> Type getValues( const string &filename, const string &k
       }
     } // close while getline
   } // close filestrea.is_open
+  stream.close();
   return value; // empty value if not found 
 } // close template class
 
