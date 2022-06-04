@@ -88,8 +88,8 @@ vector<int> LinuxParser::Pids() {
 
 // Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() { 
-  float memTotal = getValues<int>(LinuxParser::kMeminfoFilename, "MemTotal:");
-  float memFree  = getValues<int>(LinuxParser::kMeminfoFilename, "MemFree:");
+  float memTotal = getValues<int>(LinuxParser::kMeminfoFilename, LinuxParser::filterMemTotalString);
+  float memFree  = getValues<int>(LinuxParser::kMeminfoFilename, LinuxParser::filterMemFreeString);
   return (memTotal - memFree)/memTotal; 
 }
 
