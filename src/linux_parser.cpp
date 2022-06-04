@@ -95,20 +95,23 @@ float LinuxParser::MemoryUtilization() {
 
 // TODO: Read and return the system uptime
 long LinuxParser::UpTime() { 
-  long uptimeValue; 
-  std::ifstream filestream(LinuxParser::kProcDirectory + LinuxParser::kUptimeFilename);
-  if(filestream.is_open()){
-    filestream >> uptimeValue;
+  long uptimeValue = 0;
+  string line;
+  std::ifstream stream(LinuxParser::kProcDirectory + LinuxParser::kUptimeFilename);
+  if(stream.is_open()){
+    std::getline(stream, line);
+    std::istringstream linestream(line);
+    linestream >> uptimeValue;
   }
   return uptimeValue; 
   }
 
 // TODO: Read and return the number of jiffies for the system
 long LinuxParser::Jiffies() { 
-  vector<string> cpuTimes = CpuUtilization();
+  vector<string> cpuTimes = LinuxParser::CpuUtilization();
   long totalTime = 0; 
   for(unsigned int i = 0;i < cpuTimes.size(); i++) {
-    if(i == CPUStates::kGuest_ || i == CPUStates::kGuestNice_){
+    if(i == LinuxParser::CPUStates::kGuest_ || i == LinuxParser::CPUStates::kGuestNice_){
       totalTime -= stol(cpuTimes[i]);
     } else {
       totalTime += stol(cpuTimes[i]);
